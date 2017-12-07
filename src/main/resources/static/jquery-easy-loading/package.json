@@ -1,0 +1,77 @@
+{
+  "_from": "jquery-easy-loading",
+  "_id": "jquery-easy-loading@1.2.0",
+  "_inBundle": false,
+  "_integrity": "sha1-bdv1054Nw55Y+yPOdrFm73d4WfQ=",
+  "_location": "/jquery-easy-loading",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "jquery-easy-loading",
+    "name": "jquery-easy-loading",
+    "escapedName": "jquery-easy-loading",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/jquery-easy-loading/-/jquery-easy-loading-1.2.0.tgz",
+  "_shasum": "6ddbf5d39e0dc39e58fb23ce76b166ef777859f4",
+  "_spec": "jquery-easy-loading",
+  "_where": "C:\\Users\\Phearun\\m",
+  "author": {
+    "name": "Carlos Bonetti",
+    "email": "carlosb_bc@hotmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/CarlosBonetti/jquery-loading/issues"
+  },
+  "bundleDependencies": false,
+  "deprecated": false,
+  "description": "Easily add and manipulate loading states of any element on the page",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-concat": "^0.4.0",
+    "grunt-contrib-cssmin": "^0.10.0",
+    "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-qunit": "^0.5.2",
+    "grunt-contrib-uglify": "^0.5.0",
+    "grunt-contrib-watch": "^0.6.1",
+    "jquery": "^1.11.1",
+    "jshint": "^2.9.1",
+    "qunitjs": "^1.14.0"
+  },
+  "homepage": "http://carlosbonetti.github.io/jquery-loading/",
+  "keywords": [
+    "jquery",
+    "jquery-plugin",
+    "ecosystem:jquery",
+    "overlay",
+    "loading",
+    "loader",
+    "ajax"
+  ],
+  "license": "MIT",
+  "main": "./dist/jquery.loading.js",
+  "name": "jquery-easy-loading",
+  "peerDependencies": {
+    "jquery": ">=1.7"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/CarlosBonetti/jquery-loading.git"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "style": [
+    "./dist/jquery.loading.css"
+  ],
+  "url": "http://github.com/CarlosBonetti/jquery-loading",
+  "version": "1.2.0"
+}

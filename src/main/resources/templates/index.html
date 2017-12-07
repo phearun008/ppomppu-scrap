@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+<title>PPOMPPU - SCRAP</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script src="/jquery-easy-loading/dist/jquery.loading.js"></script>
+	<link href="/jquery-easy-loading/dist/jquery.loading.css" rel="stylesheet">
+	
+	<style>
+		pre{
+			min-height:500px;
+			max-height: 500px;
+			overflow:scroll;
+		}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">PPOMPPU FORUM</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Scrap Website</a></li>
+				<li><a href="/website/list">List Website</a></li>
+				<li><a href="/website/add">Create Website</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h3><span class="label label-primary">SCRAP WEBSITE</span></h3><hr/>
+		<div class="form-group">
+			  <div class="row col-sm-12" style="margin-bottom:5px;">
+				  <label class="label label-default">SELECT WEBSITE:</label>
+			  </div>
+			  
+			  <div class="row">
+				  <div class="col-sm-11">
+					  <select class="form-control" id="selectWebsite">
+					  	<option value="0">All Websites</option>
+					  	<option th:each="web: ${websites}" th:text="${web.websiteName}" th:value="${web.id}">All</option>
+					  </select>
+				  </div>
+				  <div class="col-sm-1">
+				  		<button class="btn btn-primary" id="btnScrap">Scrap</button>
+				  </div>
+			  </div>
+			  <div id="responseData" style="margin-top:10px"></div>	
+		</div>
+	</div>
+	
+	<script th:inline="javascript">
+		(function(){
+			
+			var websiteId = 0;
+			
+			$('#btnScrap').on('click', function(){
+				console.log(websiteId);
+				
+				$("#responseData").loading({theme: 'dark'});
+				
+				$.ajax({
+					url: '/scrap/websites',
+					data: {
+						websiteId: websiteId
+					},
+					method: 'GET',
+					success: function(jsonResponse){
+						$('#responseData').html("<pre>" + JSON.stringify(jsonResponse, undefined,4) + "</pre>");
+						$("#responseData").loading("stop");
+					},
+					error: function(jsonResponse){
+						console.log(jsonResponse);
+						$('#responseData').html("<pre>" + JSON.stringify(jsonResponse, undefined,4) + "</pre>");
+						$("#responseData").loading("stop");
+					}
+				}); 
+			});
+			
+			$('#selectWebsite').change(function(){
+				websiteId = this.value;
+				console.log('web', websiteId);
+			});
+		})();	
+	</script>
+</body>
+</html>

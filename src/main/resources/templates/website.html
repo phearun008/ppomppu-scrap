@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+<title>PPOMPPU - SCRAP</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script src="/jquery-easy-loading/dist/jquery.loading.js"></script>
+	<link href="/jquery-easy-loading/dist/jquery.loading.css" rel="stylesheet">
+	
+	<style>
+		pre{
+			min-height:500px;
+			max-height: 500px;
+			overflow:scroll;
+		}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">PPOMPPU FORUM</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/home">Scrap Website</a></li>
+				<li class="active"><a href="#">List Website</a></li>
+				<li><a href="/website/add">Create Website</a></li>
+			</ul>
+		</div>
+	</nav>
+	<div class="container-fluid">
+		<h3><span class="label label-primary">WEBSITE SELECTORS</span></h3><hr/>
+		<table class="table table-striped">
+			<thead>
+		      <tr>
+		      	<th>no</th>
+		        <th>content</th>
+		        <th>url</th>
+		        <th>prefix_url</th>
+		        <th>published_date</th>
+		        <th>row</th>
+		        <th>url_attribute</th>
+		        <th>view</th>
+		        <th>writer</th>
+		        <th>paging</th>
+		        <th>paging_prefix_url</th>
+		        <th>scrap_status</th>
+		        <th>scrap</th>
+		        <th>action</th>
+		      </tr>
+		    </thead>
+		    <tbody>
+		      <tr th:each="web: ${websites}" th:object="${web}">
+		      	<td>
+		      		<span class="label label-default" th:text="${webStat.index+1}"></span>
+		      	</td>
+		        <td th:text="*{content}"></td>
+		        <td th:text="*{url}"></td>
+		        <td th:text="*{prefixUrl}"></td>
+		        <td th:text="*{publishedDate}"></td>
+		        <td th:text="*{row}"></td>
+		        <td th:text="*{urlAttribute}"></td>
+		        <td th:text="*{view}"></td>
+		        <td th:text="*{writer}"></td>
+		        <td th:text="*{paging}"></td>
+		        <td th:text="*{pagingPrefixUrl}"></td>
+		        <td><span th:text="*{scrapStatus=='1'?'scraping':'not_scrap'}" th:class="*{scrapStatus=='1'?'label label-warning':'label label-default'}"></span></td>
+		        <td>
+		        	<a th:if="*{scrapStatus=='1'}" class="label label-default" title="current website is scrapping..." href="#">scrap</a>
+		        	<a th:unless="*{scrapStatus=='1'}" class="label label-primary" title="click here to scrap from this website!" href="#">scrap</a>
+		        </td>
+		        <td>
+		        	<a class="label label-primary" th:href="@{/website/edit(id=*{id})}">Edit</a>
+		        	<a class="label label-danger" href="#">Remove</a>
+		        </td>
+		      </tr>
+		    </tbody>
+		</table>
+	</div>
+	
+	<script th:inline="javascript">
+		(function(){
+			
+		})();	
+	</script>
+</body>
+</html>

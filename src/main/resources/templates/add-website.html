@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1"/>
+<title>PPOMPPU - SCRAP</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<script src="/jquery-easy-loading/dist/jquery.loading.js"></script>
+	<link href="/jquery-easy-loading/dist/jquery.loading.css" rel="stylesheet">
+	
+	<style>
+		pre{
+			min-height:500px;
+			max-height: 500px;
+			overflow:scroll;
+		}
+	</style>
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">PPOMPPU FORUM</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li><a href="/home">Scrap Website</a></li>
+				<li><a href="/website/list">List Website</a></li>
+				<li class="active"><a href="#">Create Website</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<h3><span class="label label-primary" th:text="${addStatus?'CREATE WEBSITE':'UPDATE WEBSITE'}">CREATE WEBSITE</span></h3>
+
+		<form class="form-horizontal" th:action="${addStatus?'/website/create':'/website/update'}" method="POST" th:object="${selector}">
+			<hr/><label class="label label-default">WEBSITE</label>
+
+			<input type="hidden" th:field="*{id}">
+
+			<div class="form-group">
+				<label class="control-label col-sm-2">name</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Website's Name" th:field="*{websiteName}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">url:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Website's Url" th:field="*{websiteUrl}">
+				</div>
+			</div>
+			
+			<hr><label class="label label-default">SELECTORS</label>
+			<div class="form-group">
+				<label class="control-label col-sm-2">row:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Row Selector" th:field="*{row}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">id:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Id Selector" th:field="*{aId}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">title:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Title Selector" th:field="*{title}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">url:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Url Selector" th:field="*{url}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">prefix_url:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Prefix Url Selector" th:field="*{prefixUrl}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">url_attribute:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Url Attribute" th:field="*{urlAttribute}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">writer:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Writer Selector" th:field="*{writer}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">paging:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Paging Selector" th:field="*{paging}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">paging_prefix_url:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Paging Prefix Url Selector" th:field="*{pagingPrefixUrl}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">content:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Content Selector" th:field="*{content}">
+				</div>
+			</div>
+			
+			<hr><label class="label label-default">URL TO SCRAP</label>
+			<div class="form-group">
+				<label class="control-label col-sm-2">url_to_scrap:</label>
+				<div class="col-sm-10">
+					<div id="urlToScrapParent">
+						<input th:if="${addStatus}" type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" th:field="*{links[0].href}">
+						<input th:unless="${addStatus}" th:each="link: *{links}" 
+								type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" th:name="${'links['+ (linkStat.index) +'].href'}" th:value="${link.href}">
+					</div>
+					<input class="btn btn-default" type="button" value="+" id="btnAddMoreUrl"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10"><hr/>
+					<input type="submit" class="btn btn-primary pull-right" th:value="${addStatus?'CREATE':'UPDATE'}"/>
+					<a href="/website/list" style="margin-right:5px;" class="btn btn-default pull-right">Cancel</a>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<script th:inline="javascript">
+		(function() {
+			var index = 1;
+			$('#btnAddMoreUrl').on('click', function(){
+				var $input = `<input type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" name="links[${index}].href">`;
+				$('#urlToScrapParent').append($input);
+				index++;
+			});
+			
+			$('form').on('submit', function(event){
+				//event.preventDefault();
+				/* var formData = $(this).serialize();
+				var json = {};
+				formData.split("&").forEach(function(data){
+					console.log('key', data.split("=")[0])
+					console.log('value', data.split("=")[1]);
+				});
+				console.log(json); */
+			});
+		})();
+	</script>
+</body>
+</html>
