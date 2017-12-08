@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 import com.ppomppu.model.Selector;
@@ -36,4 +37,28 @@ public class SelectorRepository {
 	public void updateSelector(Selector selector){
 		em.merge(selector);
 	}
+	
+	public void removeSelector(Integer id){
+		em.remove(this.findByWebsite(id));
+	}
+	
+	@Modifying
+	public void updateScrapStatus(Integer id, String status){
+		em.createQuery("update Selector s set s.scrapStatus=:status where s.id=:id")
+			.setParameter("id", id)
+			.setParameter("status", status)
+			.executeUpdate();
+	}
+	
+	
+	/*
+	
+	public void removeUpdateSelector(Selector selector){
+		Selector s = em.find(Selector.class, selector.getId());
+		s.setLinks(null);
+		s.setLinks(selector.getLinks());
+	}
+	*/
+	
+	
 }

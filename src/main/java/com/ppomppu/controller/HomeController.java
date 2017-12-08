@@ -61,15 +61,6 @@ public class HomeController {
 		return "redirect:/website/list";
 	}
 	
-	/*@PostMapping("/website/update")
-	public String updateWebsite(Model model, Selector selector) {
-		System.out.println(selector);
-		
-		selectorRepository.removeUpdateSelector(selector);
-		
-		return "redirect:/website/list";
-	}*/
-	
 	@PostMapping("/website/create")
 	public String addWebsite(Selector selector, Model model) {
 		System.out.println(selector);

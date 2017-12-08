@@ -16,6 +16,9 @@
 			max-height: 500px;
 			overflow:scroll;
 		}
+		.riquired{
+			color:red;
+		}
 	</style>
 </head>
 <body>
@@ -27,7 +30,7 @@
 			<ul class="nav navbar-nav">
 				<li><a href="/home">Scrap Website</a></li>
 				<li><a href="/website/list">List Website</a></li>
-				<li class="active"><a href="#">Create Website</a></li>
+				<li class="active"><a href="#">Register Website</a></li>
 			</ul>
 		</div>
 	</nav>
@@ -41,13 +44,13 @@
 			<input type="hidden" th:field="*{id}">
 
 			<div class="form-group">
-				<label class="control-label col-sm-2">name</label>
+				<label class="control-label col-sm-2"><span class="riquired">*</span>name:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" placeholder="Website's Name" th:field="*{websiteName}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-sm-2">url:</label>
+				<label class="control-label col-sm-2"><span class="riquired">*</span>url:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" placeholder="Website's Url" th:field="*{websiteUrl}">
 				</div>
@@ -55,25 +58,25 @@
 			
 			<hr><label class="label label-default">SELECTORS</label>
 			<div class="form-group">
-				<label class="control-label col-sm-2">row:</label>
+				<label class="control-label col-sm-2"><span class="riquired">*</span>row:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" placeholder="Row Selector" th:field="*{row}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-sm-2">id:</label>
+				<label class="control-label col-sm-2"><span class="riquired">*</span>id:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" placeholder="Id Selector" th:field="*{aId}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-sm-2">title:</label>
+				<label class="control-label col-sm-2"><span class="riquired">*</span>title:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" placeholder="Title Selector" th:field="*{title}">
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-sm-2">url:</label>
+				<label class="control-label col-sm-2"><span class="riquired">*</span>url:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" placeholder="Url Selector" th:field="*{url}">
 				</div>
@@ -91,7 +94,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-sm-2">writer:</label>
+				<label class="control-label col-sm-2"><span class="riquired">*</span>writer:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" placeholder="Writer Selector" th:field="*{writer}">
 				</div>
@@ -109,7 +112,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="control-label col-sm-2">content:</label>
+				<label class="control-label col-sm-2"><span class="riquired">*</span>content:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" placeholder="Content Selector" th:field="*{content}">
 				</div>
@@ -117,19 +120,19 @@
 			
 			<hr><label class="label label-default">URL TO SCRAP</label>
 			<div class="form-group">
-				<label class="control-label col-sm-2">url_to_scrap:</label>
+				<label class="control-label col-sm-2"><span class="riquired">*</span>url_to_scrap:</label>
 				<div class="col-sm-10">
 					<div id="urlToScrapParent">
-						<input th:if="${addStatus}" type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" th:field="*{links[0].href}">
-						<input th:unless="${addStatus}" th:each="link: *{links}" 
-								type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" th:name="${'links['+ (linkStat.index) +'].href'}" th:value="${link.href}">
+						<input th:if="${addStatus}" required="required" type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" th:field="*{links[0].href}">
+						<input th:unless="${addStatus}" th:each="link: *{links}" required="required" type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" th:name="${'links['+ (linkStat.index) +'].href'}" th:value="${link.href}">
 					</div>
-					<input class="btn btn-default" type="button" value="+" id="btnAddMoreUrl"/>
+					<input title="add more" class="btn btn-default" type="button" value="+" id="btnAddMoreUrl"/>
+					<input title="remove" class="btn btn-danger" type="button" value="-" id="btnRemoveMoreUrl"/>
 				</div>
 			</div>
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10"><hr/>
-					<input type="submit" class="btn btn-primary pull-right" th:value="${addStatus?'CREATE':'UPDATE'}"/>
+					<input type="submit" class="btn btn-primary pull-right" th:value="${addStatus?'REGISTER':'UPDATE'}"/>
 					<a href="/website/list" style="margin-right:5px;" class="btn btn-default pull-right">Cancel</a>
 				</div>
 			</div>
@@ -140,20 +143,20 @@
 		(function() {
 			var index = 1;
 			$('#btnAddMoreUrl').on('click', function(){
-				var $input = `<input type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" name="links[${index}].href">`;
+				var $input = `<input required="required" type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" name="links[${index}].href">`;
 				$('#urlToScrapParent').append($input);
 				index++;
 			});
 			
+			$('#btnRemoveMoreUrl').on('click', function(){
+				if(index != 1){
+					$('#urlToScrapParent').children().last().remove();
+					index--;					
+				}
+			});
+			
 			$('form').on('submit', function(event){
-				//event.preventDefault();
-				/* var formData = $(this).serialize();
-				var json = {};
-				formData.split("&").forEach(function(data){
-					console.log('key', data.split("=")[0])
-					console.log('value', data.split("=")[1]);
-				});
-				console.log(json); */
+
 			});
 		})();
 	</script>

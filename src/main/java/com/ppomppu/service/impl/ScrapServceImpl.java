@@ -54,7 +54,7 @@ public class ScrapServceImpl implements ScrapService{
 	}*/
 	
 	//TODO: scrap from MSANBU
-	/*private List<Article> scrapMsanbu(Selector selector, String mainUrl) throws IOException{
+	private List<Article> scrapMsanbu(Selector selector, String mainUrl) throws IOException{
 		
 		List<Article> articles = new ArrayList<>();
 		
@@ -85,7 +85,7 @@ public class ScrapServceImpl implements ScrapService{
 			articles.add(article);
 		}
 		return articles;
-	}*/
+	}
 	
 	//TODO: 
 	private List<Article> scrapMsanbuWithPagination(List<Selector> selectors) throws IOException, InterruptedException{
@@ -176,6 +176,16 @@ public class ScrapServceImpl implements ScrapService{
 	}
 	
 	
+	public List<Article> scrapByWebsiteTest(Integer id) throws IOException {
+		List<Article> articles = new ArrayList<>();
+		Selector selector = selectorRepository.findByWebsite(id);
+		for(Link link: selector.getLinks()){
+			articles.addAll(this.scrapMsanbu(selector, link.getHref()));
+		}
+		return articles;
+	}
+	
+	
 	public static void main(String[] args) throws IOException, InterruptedException {
 
 		System.out.println(new Random().nextInt(3)*1000);
@@ -228,5 +238,18 @@ public class ScrapServceImpl implements ScrapService{
 //			String content = doc.select("div.tbody p").text();
 			//System.out.println("C:" + content);
 		//}
+		
+		//[How to get selector]: f12->selectorElement->rightClick->copySelector
+		Document doc = Jsoup.connect("http://news.sabay.com.kh/topics/technology").get();
+		Elements es = doc.select("div.list-item");
+		System.out.println(es.size());
+		es.forEach(e->{
+			System.out.println("Title - " + e.select("a > div.col-md-8.col-sm-12.content > div > span.web").text());
+			String t = e.select("div.col-md-4.col-sm-12.tumbnail > div > div").attr("style");
+			System.out.println("Image - " + t.substring(t.indexOf("('") + 2, t.lastIndexOf("')")));
+			System.out.println("Date - " + e.select("a > div.col-md-8.col-sm-12.content > div > div > ul > li > span").text());
+			System.out.println("Description - " + e.select("a > div.col-md-8.col-sm-12.content > p").text());
+		});
+		
 	}
 }

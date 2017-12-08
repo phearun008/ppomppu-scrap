@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -42,7 +43,9 @@ public class Selector {
 	private String pagingPrefixUrl;
 	
 	private String prefixUrl;
-	private String scrapStatus;
+	
+	@Column(name="scrap_status", columnDefinition="varchar(1) default '0'")
+	private String scrapStatus = "0";
 	
 	//Content
 	private String content;
