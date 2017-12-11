@@ -21,9 +21,9 @@ public class ScrapController {
 	public List<Article> scrapByWebsite(@RequestParam("websiteId") Integer websiteId) throws IOException{
 		System.out.println("Website: " + websiteId);
 		if(websiteId == 0 || websiteId == null)
-			return scrapService.scrap();
+			return scrapService.scrap(true);
 		else
-			return scrapService.scrapByWebsite(websiteId);
+			return scrapService.scrapByWebsite(websiteId, true);
 	}
 	
 	

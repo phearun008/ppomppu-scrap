@@ -7,8 +7,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	
-	<script src="/jquery-easy-loading/dist/jquery.loading.js"></script>
-	<link href="/jquery-easy-loading/dist/jquery.loading.css" rel="stylesheet">
+	<script src="/jquery-easy-loading/jquery.loading.js"></script>
+	<link href="/jquery-easy-loading/jquery.loading.css" rel="stylesheet">
 	
 	<style>
 		pre{
@@ -76,6 +76,18 @@
 				</div>
 			</div>
 			<div class="form-group">
+				<label class="control-label col-sm-2"><span class="riquired">*</span>published_date:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="Published Date Selector" th:field="*{publishedDate}">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2"><span class="riquired"></span>view_count:</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" placeholder="View Count Selector" th:field="*{view}">
+				</div>
+			</div>
+			<div class="form-group">
 				<label class="control-label col-sm-2"><span class="riquired">*</span>url:</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" placeholder="Url Selector" th:field="*{url}">
@@ -124,7 +136,7 @@
 				<div class="col-sm-10">
 					<div id="urlToScrapParent">
 						<input th:if="${addStatus}" required="required" type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" th:field="*{links[0].href}">
-						<input th:unless="${addStatus}" th:each="link: *{links}" required="required" type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap" th:name="${'links['+ (linkStat.index) +'].href'}" th:value="${link.href}">
+						<input th:unless="${addStatus}" th:each="link: *{links}" required="required" type="text" style="margin-bottom:5px;" class="form-control" placeholder="Url To Scrap Selector" th:name="${'links['+ (linkStat.index) +'].href'}" th:value="${link.href}">
 					</div>
 					<input title="add more" class="btn btn-default" type="button" value="+" id="btnAddMoreUrl"/>
 					<input title="remove" class="btn btn-danger" type="button" value="-" id="btnRemoveMoreUrl"/>

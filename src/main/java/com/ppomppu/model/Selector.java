@@ -37,14 +37,14 @@ public class Selector {
 	private String view;
 	private String url;
 	private String thumbnail;
-	private String urlAttribute;
+	private String urlAttribute = "href";
 	
 	private String paging;
 	private String pagingPrefixUrl;
 	
 	private String prefixUrl;
 	
-	@Column(name="scrap_status", columnDefinition="varchar(1) default '0'")
+	@Column(name="scrap_status", length = 1)
 	private String scrapStatus = "0";
 	
 	//Content

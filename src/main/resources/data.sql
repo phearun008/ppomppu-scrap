@@ -1,0 +1,4 @@
+insert into website_selector (id, a_id, content, paging, paging_prefix_url, prefix_url,
+published_date, row, scrap_status, thumbnail, title, url, url_attribute, view, website_name, website_url, writer) values (null, '.list-count', 'div.tbody p', 'table.Nnavi a', 'http://cafe.naver.com', 'http://cafe.naver.com', 'td.view-count', 'form[name=ArticleList] tr[align=center]', '0', '', 'span.aaa a', 'span.aaa a', 'href', '', '1Msanbu', 'http://cafe.naver.com', 'span.wordbreak');
+
+insert into website_url (id, href, selector_id) values (null, 'http://cafe.naver.com/ArticleList.nhn?search.clubid=15240504&search.menuid=62&search.boardtype=L&search.questionTab=A&search.totalCount=151&search.page=3', 1);

@@ -31,10 +31,10 @@ public class ScrapServceImpl implements ScrapService{
 	private SelectorRepository selectorRepository;
 	
 	@Override
-	public List<Article> scrap() throws IOException {
+	public List<Article> scrap(boolean isTest) throws IOException {
 		List<Selector> selectors = selectorRepository.findAllSelector();
 		try {
-			return this.scrapMsanbuWithPagination(selectors);
+			return this.scrapMsanbuWithPagination(selectors, isTest);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -88,19 +88,19 @@ public class ScrapServceImpl implements ScrapService{
 	}
 	
 	//TODO: 
-	private List<Article> scrapMsanbuWithPagination(List<Selector> selectors) throws IOException, InterruptedException{
+	private List<Article> scrapMsanbuWithPagination(List<Selector> selectors, boolean isTest) throws IOException, InterruptedException{
 		List<Article> fList = new ArrayList<>();
 		for(Selector selector: selectors){
 			for(Link link: selector.getLinks()){
 				logger.info("Scrap link: " + link.getHref());
-				fList.addAll(scrapMsanbuWithPaging(selector, link.getHref()));				
+				fList.addAll(scrapMsanbuWithPaging(selector, link.getHref(), isTest));
 			}
 		}
 		return fList;
 	}
 		
 	//TODO: scrap from MSANBU
-	private List<Article> scrapMsanbuWithPaging(Selector selector, String mainUrl) throws IOException, InterruptedException{
+	private List<Article> scrapMsanbuWithPaging(Selector selector, String mainUrl, boolean isTest) throws IOException, InterruptedException{
 		
 		List<Article> articles = new ArrayList<>();
 		
@@ -109,17 +109,17 @@ public class ScrapServceImpl implements ScrapService{
 		
 		String previousUrl = "";
 		Elements elements = mainDoc.select(selector.getPaging());
-		int i = 0;
+		int page = 0;
 		do {
-			if (previousUrl.contains(elements.get(i).attr("href"))) {
+			if (previousUrl.contains(elements.get(page).attr("href"))) {
 				System.out.println("Again!!!");
 				break;
 			}
-			previousUrl += elements.get(i).attr("href");
+			previousUrl += elements.get(page).attr("href");
 			
 			//get next page url
-			logger.info("Scrap Url: "+ elements.get(i).attr("href"));
-			String eachPageUrl = elements.get(i).attr("href");
+			logger.info("Scrap Url: "+ elements.get(page).attr("href"));
+			String eachPageUrl = elements.get(page).attr("href");
 			
 			Thread.sleep(new Random().nextInt(3)*1_000);
 			
@@ -150,32 +150,34 @@ public class ScrapServceImpl implements ScrapService{
 				articles.add(article);
 			}
 
-			if (i == elements.size() - 1) {
-				mainDoc = Jsoup.connect(selector.getPagingPrefixUrl() + elements.get(i).attr("href")).get();
+			if (page == elements.size() - 1) {
+				mainDoc = Jsoup.connect(selector.getPagingPrefixUrl() + elements.get(page).attr("href")).get();
 				elements = mainDoc.select(selector.getPaging());
-				i = 1;
+				page = 1;
 			}
-			i++;
+
+			if(page==2 && isTest) break;
+
+			page++;
 		} while (true);
 		
 		return articles;
 	}
 
 	@Override
-	public List<Article> scrapByWebsite(Integer id) throws IOException {
+	public List<Article> scrapByWebsite(Integer id, boolean isTest) throws IOException {
 		List<Article> articles = new ArrayList<>();
 		Selector selector = selectorRepository.findByWebsite(id);
 		for(Link link: selector.getLinks()){
 			try {
-				articles.addAll(this.scrapMsanbuWithPaging(selector, link.getHref()));
+				articles.addAll(this.scrapMsanbuWithPaging(selector, link.getHref(), isTest));
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 		return articles;
 	}
-	
-	
+
 	public List<Article> scrapByWebsiteTest(Integer id) throws IOException {
 		List<Article> articles = new ArrayList<>();
 		Selector selector = selectorRepository.findByWebsite(id);
@@ -184,72 +186,17 @@ public class ScrapServceImpl implements ScrapService{
 		}
 		return articles;
 	}
-	
-	
-	public static void main(String[] args) throws IOException, InterruptedException {
 
-		System.out.println(new Random().nextInt(3)*1000);
-		
-		
-		/*String url = "http://cafe.naver.com/ArticleList.nhn?search.clubid=15240504&search.menuid=62&search.boardtype=L&search.questionTab=A&search.totalCount=151&search.page=3";
-		Document doc = Jsoup.connect(url).timeout(3000).userAgent(USER_AGENT).get();
-		
-		String previousUrl = "";
-		Elements elements = doc.select("table.Nnavi a");
-		int i = 0;
-		do {
-			if (previousUrl.contains(elements.get(i).attr("href"))) {
-				System.out.println("again");
-				break;
-			}
-			previousUrl += elements.get(i).attr("href");
-			Thread.sleep(1000);
-			System.out.println(elements.get(i).attr("href"));
-			
-			if (i == elements.size() - 1) {
-				//doc = Jsoup.connect("http://cafe.naver.com" + elements.get(i).attr("href")).get();
-				doc = Jsoup.connect("http://cafe.naver.com/ArticleList.nhn?search.clubid=15240504&search.menuid=62&search.boardtype=L&search.questionTab=A&search.totalCount=13540&search.page=901").get();
-				elements = doc.select("table.Nnavi a");
-				i = 1;
-			}
-			i++;
-		} while (true);*/
-		
-		/*Elements elements = doc.select("form[name=ArticleList] tr[align=center]");
-		
-		System.out.println(elements.size());
-		for (Element element : elements) {
-			
-			
-			String title = element.select("span.aaa a").first().text();
-			String url = element.select("span.aaa a").first().attr("href");
-			String id = element.select(".list-count").first().text();
-			String date = element.select("td.view-count").first().text();
-			String like = element.select("em.u_cnt").first().text();
-			String writer = element.select("span.wordbreak").first().text();
-			System.out.println(writer);*/
-			
-			
-			//String e = element.select("td.view-count").text();
-			//System.out.println(e);
-			
-			//scrap content
-			//doc = Jsoup.connect(prefixUrl + url).get();
-//			String content = doc.select("div.tbody p").text();
-			//System.out.println("C:" + content);
-		//}
-		
-		//[How to get selector]: f12->selectorElement->rightClick->copySelector
-		Document doc = Jsoup.connect("http://news.sabay.com.kh/topics/technology").get();
-		Elements es = doc.select("div.list-item");
-		System.out.println(es.size());
-		es.forEach(e->{
-			System.out.println("Title - " + e.select("a > div.col-md-8.col-sm-12.content > div > span.web").text());
-			String t = e.select("div.col-md-4.col-sm-12.tumbnail > div > div").attr("style");
-			System.out.println("Image - " + t.substring(t.indexOf("('") + 2, t.lastIndexOf("')")));
-			System.out.println("Date - " + e.select("a > div.col-md-8.col-sm-12.content > div > div > ul > li > span").text());
-			System.out.println("Description - " + e.select("a > div.col-md-8.col-sm-12.content > p").text());
-		});
-		
+	public static void main(String[] args) throws IOException {
+		String url = "http://www.ppomppu.co.kr/zboard/zboard.php?id=phone";
+		Document document = Jsoup.connect(url).timeout(100000).userAgent(USER_AGENT).get();
+
+		Elements elements = document.select("tr.list0, tr.list1");
+		for (Element element: elements){
+			String num2 = element.select("td.list_vspace > font > font").text();
+			System.out.println("n: " + num2);
+
+		}
+
 	}
 }

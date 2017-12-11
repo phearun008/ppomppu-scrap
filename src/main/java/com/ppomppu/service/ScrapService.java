@@ -7,7 +7,7 @@ import com.ppomppu.model.Article;
 
 public interface ScrapService {
 	
-	public List<Article> scrap() throws IOException;
-	public List<Article> scrapByWebsite(Integer id) throws IOException;
+	public List<Article> scrap(boolean isTest) throws IOException;
+	public List<Article> scrapByWebsite(Integer id, boolean isTest) throws IOException;
 	
 }
