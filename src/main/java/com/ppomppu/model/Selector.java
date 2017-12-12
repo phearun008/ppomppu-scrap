@@ -34,10 +34,12 @@ public class Selector {
 	private String title;
 	private String writer;
 	private String publishedDate;
-	private String view;
 	private String url;
 	private String thumbnail;
 	private String urlAttribute = "href";
+	
+	private String viewCount;
+	private String likeCount;
 	
 	private String paging;
 	private String pagingPrefixUrl;
@@ -67,7 +69,7 @@ public class Selector {
 	public String toString() {
 		return "Selector [id=" + id + ", websiteName=" + websiteName + ", websiteUrl=" + websiteUrl + ", row=" + row
 				+ ", aId=" + aId + ", title=" + title + ", writer=" + writer + ", publishedDate=" + publishedDate
-				+ ", view=" + view + ", url=" + url + ", thumbnail=" + thumbnail + ", urlAttribute=" + urlAttribute
+				+ ", viewCount=" + viewCount + ", url=" + url + ", thumbnail=" + thumbnail + ", urlAttribute=" + urlAttribute
 				+ ", prefixUrl=" + prefixUrl + ", content=" + content + "]";
 	}
 	

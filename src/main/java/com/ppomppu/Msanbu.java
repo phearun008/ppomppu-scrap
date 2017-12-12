@@ -1,11 +1,7 @@
 package com.ppomppu;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
 public class Msanbu {
-  public static void main(String[] args) throws Exception{
+  /*public static void main(String[] args) throws Exception{
 	//임신출산용품 후기
 	  Document doc = Jsoup.connect("http://cafe.naver.com/ArticleList.nhn?search.clubid=15240504&search.menuid=62&search.boardtype=L&search.questionTab=A&search.totalCount=151&search.page=3").get();
 	 // System.out.println(doc);
@@ -46,15 +42,14 @@ public class Msanbu {
 		  System.out.println(comment_json);
 		  
 		  
-		  /*JSONObject jsonObj = new JSONObject(comment_json);
+		  JSONObject jsonObj = new JSONObject(comment_json);
 		  JSONObject jsonObj1 =jsonObj.getJSONObject("result");
 		  JSONArray commentlist=jsonObj1.getJSONArray("list");
 		  for(int k=0;k<commentlist.length();k++){
 			  System.out.println(commentlist.get(k));
 		  }
-		  break;*/
+		  break;
 	  }
-  }
-  
+  }*/
 }
 

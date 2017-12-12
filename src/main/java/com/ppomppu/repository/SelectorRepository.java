@@ -50,9 +50,7 @@ public class SelectorRepository {
 			.executeUpdate();
 	}
 	
-	
 	/*
-	
 	public void removeUpdateSelector(Selector selector){
 		Selector s = em.find(Selector.class, selector.getId());
 		s.setLinks(null);
